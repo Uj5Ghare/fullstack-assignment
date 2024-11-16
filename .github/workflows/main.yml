@@ -55,12 +55,11 @@ jobs:
       - name: Install PM2
         run: npm install -g pm2
       - name: Setup Env variables
-        run: |
-          cd frontend/  
-          echo -e ${{ vars.FRONTEND_ENV }} > .env.local
-          cat .env.local
+        run: |  
+          echo -e ${{ vars.FRONTEND_ENV }} > frontend/.env.local
+          cat frontend/.env.local
       - name: Install Dependencies
-        run: pwd && npm install
+        run: cd frontend && pwd && npm install
       - name: Static Build
         run: npm run build
       - name: Start App
@@ -82,11 +81,10 @@ jobs:
         run: npm install -g pm2
       - name: Setup Env variables
         run: |
-          cd backend/
-          echo -e ${{ vars.BACKEND_ENV }} > .env
+          echo -e ${{ vars.BACKEND_ENV }} > backend/.env
           cat .env
       - name: Install Dependencies
-        run: pwd && pip install -r dependencies.txt
+        run: cd backend/ && pwd && pip install -r dependencies.txt
       - name: Make Migrations
         run: python manage.py migrate
       - name: Collect Static Content
