@@ -2,9 +2,9 @@ name: Terraform Deployment Workflow
 
 on:
   push:
-    branches: [ujwal-tf]
+    branches: [ujwal-cicd, ujwal-tf]
     paths:
-      - "tf/manifests/**"
+      - "tf/files/**"
   pull_request:
     types: [synchronize]
   workflow_dispatch:
@@ -12,7 +12,7 @@ on:
 defaults:
   run:
     shell: bash
-    working_directory: tf/manifests/
+    working_directory: tf/files/
 
 permissions:
   actions: read
