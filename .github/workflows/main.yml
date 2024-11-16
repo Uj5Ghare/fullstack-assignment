@@ -6,13 +6,12 @@ on:
       - main 
       - ujwal-devops
       - ujwal-cicd
-    paths-ignore:
-      - "helm/**"
-      - "k8s/**"
-      - "tf/**"
-      - "README.md"
+    paths:
+      - ".gihub/workflows/main.yml"
+      - "backend/**"
+      - "frontend/**"
       - "images/**"
-      - "nginx/**"
+      - "prompts/**"
   pull_request:
     types: [synchronize]
   workflow_dispatch:
