@@ -32,8 +32,8 @@ jobs:
 
     - name: Setup Env variables
       run: | 
-        echo -e ${{ secrets.FRONTEND_ENV }} > .env.local
-        echo -e ${{ secrets.BACKEND_ENV }} > .env
+        echo -e ${{ secrets.FRONTEND_ENV }} > frontend/.env.local
+        echo -e ${{ secrets.BACKEND_ENV }} > backend/.env
         
     - name: Destroy Previous Deployment
       run: docker compose down
