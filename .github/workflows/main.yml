@@ -43,7 +43,10 @@ jobs:
   Build-App-Frontend:
     runs-on: ubuntu-22.04
     needs: [SonarQube-Analysis]
-    working_directory: frontend/
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -69,7 +72,10 @@ jobs:
   Build-App-Backend:
     runs-on: ubuntu-22.04
     needs: [SonarQube-Analysis]
-    working_directory: backend/
+    defaults:
+      run:
+        shell: bash
+        working-directory: backend/
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
