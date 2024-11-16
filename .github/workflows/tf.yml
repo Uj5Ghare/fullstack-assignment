@@ -2,7 +2,9 @@ name: Terraform Deployment Workflow
 
 on:
   push:
-    branches: [ujwal-cicd, ujwal-tf]
+    branches:
+      - ujwal-cicd
+      - ujwal-tf
     paths:
       - "tf/files/**"
   pull_request:
@@ -32,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
-          
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
