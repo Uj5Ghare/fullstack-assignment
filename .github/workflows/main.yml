@@ -58,8 +58,9 @@ jobs:
         run: |
           cd frontend/  
           echo -e ${{ vars.FRONTEND_ENV }} > .env.local
+          cat .env.local
       - name: Install Dependencies
-        run: npm install
+        run: pwd && npm install
       - name: Static Build
         run: npm run build
       - name: Start App
@@ -83,8 +84,9 @@ jobs:
         run: |
           cd backend/
           echo -e ${{ vars.BACKEND_ENV }} > .env
+          cat .env
       - name: Install Dependencies
-        run: pip install -r dependencies.txt
+        run: pwd && pip install -r dependencies.txt
       - name: Make Migrations
         run: python manage.py migrate
       - name: Collect Static Content
