@@ -1,11 +1,9 @@
 FROM python:3.11-alpine
 MAINTAINER ujwal.pachghare
 WORKDIR /usr/bin/app
-ENV PIP_NO_CACHE_DIR=1 \
-    FRONTEND_URL="http://127.0.0.1:3000" \
-    BACKEND_URL="http://127.0.0.1:8000" \
+ENV PIP_NO_CACHE_DIR=1
 RUN rm -rf /var/lib/apt/lists/*
-ADD dependencies.txt .
+COPY ./dependencies.txt .
 RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r dependencies.txt
 COPY . .

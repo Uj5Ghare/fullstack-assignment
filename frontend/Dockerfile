@@ -1,7 +1,7 @@
 FROM node:18.20.4-slim AS base
 LABEL stage="install"
 WORKDIR /install
-COPY package.json .
+COPY ./package.json .
 RUN npm install -g npm@10.9.0
 RUN npm install
 
