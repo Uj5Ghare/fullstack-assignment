@@ -15,7 +15,7 @@ on:
 defaults:
   run:
     shell: bash
-    working_directory: tf/files/
+    working-directory: tf/files/
 
 permissions:
   actions: read
