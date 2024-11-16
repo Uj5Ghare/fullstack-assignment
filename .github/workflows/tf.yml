@@ -6,6 +6,7 @@ on:
       - ujwal-cicd
       - ujwal-tf
     paths:
+      - ".github/workflows/tf.yml"
       - "tf/files/**"
   pull_request:
     types: [synchronize]
