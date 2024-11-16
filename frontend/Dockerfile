@@ -18,7 +18,6 @@ FROM node:18.20-alpine
 LABEL stage="deploy"
 MAINTAINER ujwal.pachghare
 WORKDIR /usr/bin/app
-ENV NEXT_PUBLIC_API_BASE_URL="http://127.0.0.1:8000" 
 COPY --from=build /build/node_modules ./node_modules
 COPY --from=build /build/pages ./pages
 COPY . .

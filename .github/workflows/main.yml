@@ -40,34 +40,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  Build-App-Frontend:
-    runs-on: ubuntu-22.04
-    needs: [SonarQube-Analysis]
-    defaults:
-      run:
-        shell: bash
-        working-directory: frontend/
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
-      - name: Setup node Environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.20.5
-      - name: Install PM2
-        run: npm install -g pm2
-      - name: Setup Env variables
-        run: |  
-          echo -e ${{ secrets.FRONTEND_ENV }} > .env.local
-      - name: Install Dependencies
-        run: pwd && npm install
-      - name: Static Build
-        run: npm run build
-      - name: Start App
-        run: pm2 start "npm start" --name frontend
-
   Build-App-Backend:
     runs-on: ubuntu-22.04
     needs: [SonarQube-Analysis]
@@ -98,8 +70,36 @@ jobs:
       - name: Start App
         run: pm2 start "gunicorn backend.wsgi:application -b 0.0.0.0:8000 --reload" --name backend
 
-  Image-Vuln-Check-Backend:
+  Build-App-Frontend:
     runs-on: ubuntu-22.04
+    needs: [SonarQube-Analysis]
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Setup node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.20.5
+      - name: Install PM2
+        run: npm install -g pm2
+      - name: Setup Env variables
+        run: |  
+          echo -e ${{ secrets.FRONTEND_ENV }} > .env.local
+      - name: Install Dependencies
+        run: pwd && npm install
+      - name: Static Build
+        run: npm run build
+      - name: Start App
+        run: pm2 start "npm start" --name frontend
+
+  Image-Vuln-Check-Backend:
+    runs-on: ubuntu-24.04
     needs: [Build-App-Backend]
     continue-on-error: true
     defaults:
@@ -130,7 +130,7 @@ jobs:
           path: trivy-report-backend.txt
 
   Image-Vuln-Check-Frontend:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [Build-App-Frontend]
     continue-on-error: true
     defaults:
@@ -161,7 +161,7 @@ jobs:
           path: trivy-report-frontend.txt
 
   Push-To-DockerHub-Backend:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [Image-Vuln-Check-Backend]
     defaults:
       run:
@@ -178,12 +178,12 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          file: backend/Dockerfile
+          file: Dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/chatgpt-backend:1.${{ github.run_number }}.${{ github.run_attempt}}
 
   Push-To-DockerHub-Frontend:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [Image-Vuln-Check-Frontend]
     defaults:
       run:
@@ -200,12 +200,12 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          file: frontend/Dockerfile
+          file: Dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/chatgpt-frontend:1.${{ github.run_number }}.${{ github.run_attempt}}
 
   Update-Helm-Chart-Backend:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [Push-To-DockerHub-Backend] 
     steps:
       - name: Checkout Code
@@ -227,7 +227,7 @@ jobs:
           git push
 
   Update-Helm-Chart-Frontend:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [Push-To-DockerHub-Frontend]
     steps:
       - name: Checkout Code
