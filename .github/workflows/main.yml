@@ -72,7 +72,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
       - name: Setup Python Environment
-      - uses: actions/setup-python@v5
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install PM2
