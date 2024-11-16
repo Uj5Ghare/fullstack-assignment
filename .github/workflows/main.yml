@@ -178,7 +178,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          file: Dockerfile
+          file: backend/Dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/chatgpt-backend:1.${{ github.run_number }}.${{ github.run_attempt}}
 
@@ -200,7 +200,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          file: Dockerfile
+          file: frontend/Dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/chatgpt-frontend:1.${{ github.run_number }}.${{ github.run_attempt}}
 
