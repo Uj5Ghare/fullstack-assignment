@@ -3,11 +3,11 @@ name: ChatGPT Workflow
 on:
   push:
     branches:
-      - main 
+      - main
       - ujwal-devops
       - ujwal-cicd
     paths:
-      - ".gihub/workflows/main.yml"
+      - ".github/workflows/main.yml"
       - "backend/**"
       - "frontend/**"
       - "images/**"
@@ -189,7 +189,7 @@ jobs:
           sed -i 's/tag: .*/tag: "1.${{ github.run_number }}.${{ github.run_attempt}}"/' helm/charts/chatgpt-backend-chart/values.yaml
       - name: Update tag in K8s Deployment
         run: |
-           sed -i 's|\(uj5ghare/chatgpt-backend:\)[^[:space:]]*|\1"1.${{ github.run_number }}.${{ github.run_attempt}}"|' k8s/manifests/backend/deployment.yml
+          sed -i 's|\(uj5ghare/chatgpt-backend:\)[^[:space:]]*|\1"1.${{ github.run_number }}.${{ github.run_attempt}}"|' k8s/manifests/backend/deployment.yml
       - name: Commit and push changes
         run: |
           git config --global user.email "${{ secrets.GH_USER_MAIL }}"
@@ -211,7 +211,7 @@ jobs:
           sed -i 's/tag: .*/tag: "1.${{ github.run_number }}.${{ github.run_attempt}}"/' helm/charts/chatgpt-frontend/values.yaml
       - name: Update tag in K8s Deployment
         run: |
-           sed -i 's|\(uj5ghare/chatgpt-frontend:\)[^[:space:]]*|\1"1.${{ github.run_number }}.${{ github.run_attempt}}"|' k8s/manifests/frontend/deployment.yml
+          sed -i 's|\(uj5ghare/chatgpt-frontend:\)[^[:space:]]*|\1"1.${{ github.run_number }}.${{ github.run_attempt}}"|' k8s/manifests/frontend/deployment.yml
       - name: Commit and push changes
         run: |
           git config --global user.email "${{ sercrets.GH_USER_MAIL }}"
