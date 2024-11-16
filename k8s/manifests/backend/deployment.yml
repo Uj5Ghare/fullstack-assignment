@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: chatgpt-backend
-        image: uj5ghare/chatgpt-backend:"1.35.2"
+        image: uj5ghare/chatgpt-backend:"1.37.1"
         ports:
         - containerPort: 8000
         imagePullPolicy: Always

@@ -9,7 +9,7 @@ defaultNamespace: chatgpt
 image:
   repository: uj5ghare/chatgpt-backend
   pullPolicy: Always
-  tag: "1.35.2"
+  tag: "1.37.1"
 
 service:
   type: ClusterIP
