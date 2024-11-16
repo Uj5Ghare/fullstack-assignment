@@ -42,4 +42,4 @@ jobs:
       run: docker compose up -d
 
     - name: Restart Nginx 
-      run: sudo systemctl restart nginx
+      run: sudo systemctl restart nginx 
