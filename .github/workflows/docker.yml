@@ -4,6 +4,7 @@ on:
   push:
     branches: [ujwal-cicd, ujwal-docker]
     paths:
+      - ".github/workflows/docker.yml"
       - "backend/**"
       - "frontend/**"
   pull_request:
@@ -28,6 +29,11 @@ jobs:
       with:
         ref: ${{ github.ref_name }}
 
+    - name: Setup Env variables
+      run: | 
+        echo -e ${{ secrets.FRONTEND_ENV }} > .env.local
+        echo -e ${{ secrets.BACKEND_ENV }} > .env
+        
     - name: Destroy Previous Deployment
       run: docker compose down
 
