@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   Docker-Compose-Deployment:
-    runs-on: self-hosted
+    runs-on: self-hosted-runner
     steps:
 
     - name: Checkout Code 
