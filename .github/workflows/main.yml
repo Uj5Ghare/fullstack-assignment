@@ -214,7 +214,7 @@ jobs:
           sed -i 's|\(uj5ghare/chatgpt-frontend:\)[^[:space:]]*|\1"1.${{ github.run_number }}.${{ github.run_attempt}}"|' k8s/manifests/frontend/deployment.yml
       - name: Commit and push changes
         run: |
-          git config --global user.email "${{ sercrets.GH_USER_MAIL }}"
+          git config --global user.email "${{ secrets.GH_USER_MAIL }}"
           git config --global user.name "${{ vars.GH_USER_NAME }}"
           git add .
           git commit -m "[helm] Updated tag in chatgpt-frontend/values.yaml && [k8s] updated frontend deployment image tag"
