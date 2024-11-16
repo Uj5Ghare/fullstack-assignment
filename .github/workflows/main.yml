@@ -102,6 +102,10 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [Build-App-Backend]
     continue-on-error: true
+    defaults:
+      run:
+        shell: bash
+        working-directory: backend/
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -129,6 +133,10 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [Build-App-Frontend]
     continue-on-error: true
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -155,6 +163,10 @@ jobs:
   Push-To-DockerHub-Backend:
     runs-on: ubuntu-22.04
     needs: [Image-Vuln-Check-Backend]
+    defaults:
+      run:
+        shell: bash
+        working-directory: backend/
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -172,6 +184,10 @@ jobs:
   Push-To-DockerHub-Frontend:
     runs-on: ubuntu-22.04
     needs: [Image-Vuln-Check-Frontend]
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -188,7 +204,7 @@ jobs:
 
   Update-Helm-Chart-Backend:
     runs-on: ubuntu-22.04
-    needs: [Push-To-DockerHub-Backend]
+    needs: [Push-To-DockerHub-Backend] 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -196,7 +212,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Update tag in Helm chart
         run: |
-          sed -i 's/tag: .*/tag: "1.${{ github.run_number }}.${{ github.run_attempt}}"/' helm/charts/chatgpt-backend-chart/values.yaml
+          sed -i 's/tag: .*/tag: "1.${{ github.run_number }}.${{ github.run_attempt}}"/' helm/charts/chatgpt-backend/values.yaml
       - name: Update tag in K8s Deployment
         run: |
           sed -i 's|\(uj5ghare/chatgpt-backend:\)[^[:space:]]*|\1"1.${{ github.run_number }}.${{ github.run_attempt}}"|' k8s/manifests/backend/deployment.yml
